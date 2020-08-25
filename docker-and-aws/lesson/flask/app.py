@@ -24,7 +24,6 @@ single_parser.add_argument('file', location='files', type=FileStorage, required=
 model = load_model('my_model.h5')
 graph = tf.get_default_graph()
 
-
 @ns.route('/prediction')
 class CNNPrediction(Resource):
     """Uploads your data to the CNN"""
