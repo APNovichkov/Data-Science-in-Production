@@ -15,8 +15,8 @@ import numpy as np
 import pickle
 
 # Define app and api object
-app = Flask(__name__)
-api = Api(app, version='1.0', title='Logistic Regression', description='Logistic Regression')
+application = Flask(__name__)
+api = Api(application, version='1.0', title='Logistic Regression', description='Logistic Regression')
 ns = api.namespace('DS2_3_docker_and_aws', description='Methods')
 
 # Define arguments for our API, in this case, it is going to be just a comma separated string
@@ -62,4 +62,4 @@ class LogRegPrediction(Resource):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    application.run()
