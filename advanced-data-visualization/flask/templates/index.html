@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Time Series Graphing</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <link rel="stylesheet" href="/static/index.css" />
+  </head>
+  <body>
+    <div class="container main-container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card data-entry-wrapper" style="padding: 20px; border-radius: 10px">
+            <div class="data-entry-title text-center" style="padding-top: 10px">
+              <h3>Enter Data</h3>
+            </div>
+            <hr />
+            <div class="year-range-entry">
+              <h5>Time Range</h5>
+              <input
+                style="padding: 4px; border-radius: 10px; border: 1px solid; width: 100px"
+                class="min-year"
+                id="min-year"
+                type="number"
+                value="2004"
+                min="2004"
+                max="2017"
+              />
+              to
+              <input
+                style="padding: 4px; border-radius: 10px; border: 1px solid; width: 100px"
+                class="max-year"
+                id="max-year"
+                type="number"
+                value="2005"
+                min="2004"
+                max="2017"
+              />
+            </div>
+            <div style="margin-top: 20px" class="column-selection">
+              <h5>Column Selection</h5>
+              <div class="form-check">
+                <input
+                  class="form-check-input position-static"
+                  type="checkbox"
+                  id="diet"
+                  value="option1"
+                  aria-label="..."
+                />
+                <span style="color: #056674">Diet</span>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input position-static"
+                  type="checkbox"
+                  id="gym"
+                  value="option1"
+                  aria-label="..."
+                />
+                <span style="color: #d54062">Gym</span>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input position-static"
+                  type="checkbox"
+                  id="finance"
+                  value="option1"
+                  aria-label="..."
+                />
+                <span style="color: #6f4a8e">Finance</span>
+              </div>
+            </div>
+            <div style="margin-top: 30px">
+              <button onclick="updateGraph()" style="background-color: #ff4b5c; color: #ffffff" class="btn">
+                Generate Graph
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div id="graph">Graph will be here</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <script src="static/index.js"></script>
+  </body>
+</html>
