@@ -7,6 +7,9 @@ werkzeug.cached_property = werkzeug.utils.cached_property
 # Import FLASK
 from flask import Flask, request, jsonify
 
+# Import firebase stuff
+from firebase_admin import credentials, firestore, initialize_app
+
 # Import RESTPLUS libraries
 from flask_restplus import Api, Resource, fields
 
@@ -14,10 +17,20 @@ from flask_restplus import Api, Resource, fields
 import numpy as np
 import pickle
 
+# Import random stuff
+import uuid
+from datetime import datetime
+
 # Define app and api object
 application = Flask(__name__)
 api = Api(application, version='1.0', title='Logistic Regression', description='Logistic Regression')
 ns = api.namespace('DS2_3_docker_and_aws', description='Methods')
+
+# Initialize Firestore DB
+cred = credentials.Certificate('key.json')
+default_app = initialize_app(cred)
+db = firestore.client()
+interactions = db.collection('interactions')
 
 # Define arguments for our API, in this case, it is going to be just a comma separated string
 single_parser = api.parser()
@@ -28,7 +41,6 @@ labelEncoder1 = pickle.load(open('pickle_files/labelEncoder1.pickle', 'rb'))
 labelEncoder2 = pickle.load(open('pickle_files/labelEncoder2.pickle', 'rb'))
 standardScaler = pickle.load(open('pickle_files/standardScaler.pickle', 'rb'))
 model = pickle.load(open('pickle_files/log_reg_model.pickle', 'rb'))
-
 
 @ns.route('/prediction')
 class LogRegPrediction(Resource):
@@ -55,7 +67,20 @@ class LogRegPrediction(Resource):
         X = standardScaler.transform([X])
 
         # Make the prediction
-        prediction = model.predict(X)
+        prediction = str(model.predict(X)[0])
+
+
+
+        # Log user interaction in firebase
+        log_object = {
+            "user_input": input_data,
+            "prediction": prediction,
+            "datetime": datetime.now().strftime("%m/%d/%y")
+        }
+
+        print(f'Log object: {log_object}')
+
+        interactions.document(uuid.uuid4().hex).set(log_object)
 
         # Return prediction
         return {'prediction': str(prediction)}
